@@ -1,3 +1,13 @@
+"""
+Just import this on the Thonny command line and all the logs will be deleted
+
+Example usage:
+  >>> import cleanup_logs
+  Deleted: 2023-9-26-5-44-15-traceback.log
+  Deleted: 2023-9-26-9-44-51-traceback.log
+  Deleted: 2023-9-27-1-48-55-traceback.log
+  >>>
+"""
 import os
 
 file_extension_pattern = '.log'
