@@ -1,5 +1,6 @@
 """
-Just import this on the Thonny command line and all the logs will be deleted
+Just import this on the microcontroller command line (e.g.via Thonny) and all the
+logs will be deleted
 
 Example usage:
   >>> import cleanup_logs
