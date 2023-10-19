@@ -1,10 +1,12 @@
+import json
 import os
 import sys
 import time
 
 import ntptime
 import uio
-from machine import Pin, reset, RTC
+import urequests as requests
+from machine import Pin, RTC, reset
 
 #
 # print debug messages
@@ -286,3 +288,24 @@ def time_sync():
         time.sleep(0.5)
         reset()
 
+
+def handle_exception(exc, hostname, notify_url):
+    """
+    Handle an exception by logging traceback, notifying, and potentially resetting.
+
+    :param exc: The exception object.
+    :param hostname: The host on which the exception happens
+    :param notify_url: The url we send our POST messages to
+    """
+    tprint("-C R A S H-")
+    tb_msg = log_traceback(exc)
+    if max_reset_attempts_exceeded():
+        traceback_data = {
+            "machine": hostname,
+            "traceback": tb_msg
+        }
+        resp = requests.post(notify_url, data=json.dumps(traceback_data))
+        resp.close()
+        flash_led(3000, 3)  # slow flashing for about 2.5 hours
+    else:
+        reset()
