@@ -286,20 +286,3 @@ def time_sync():
         time.sleep(0.5)
         reset()
 
-
-def ota_check(updater):
-    """
-    Check to see if we have Over-The-Air (OTA) updates.
-
-    :param updater: An updater object
-    :type updater: object
-    :return: Nothing
-    :rtype: None
-    """
-    tprint("UCHK: Checking for OTA updates")
-    if updater.updated():
-        tprint("UCHK: OTA updates added. Resetting system.")
-        time.sleep(1)
-        reset()
-    else:
-        tprint("UCHK: No OTA updates.")
