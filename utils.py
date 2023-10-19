@@ -2,6 +2,7 @@ import os
 import sys
 import time
 
+import ntptime
 import uio
 from machine import Pin, reset, RTC
 
@@ -267,3 +268,38 @@ def on_us_dst():
             on_dst = True
 
     return on_dst
+
+
+def time_sync():
+    """
+    Sync system with NTP time
+
+    :return: Nothing
+    :rtype: None
+    """
+    print("SYNC: Sync system time with NTP")
+    try:
+        ntptime.settime()
+        debug_print("SYNC: System time set successfully.")
+    except Exception as e:
+        print(f"SYNC: Error setting system time: {e}")
+        time.sleep(0.5)
+        reset()
+
+
+def ota_check(updater):
+    """
+    Check to see if we have Over-The-Air (OTA) updates.
+
+    :param updater: An updater object
+    :type updater: object
+    :return: Nothing
+    :rtype: None
+    """
+    tprint("UCHK: Checking for OTA updates")
+    if updater.updated():
+        tprint("UCHK: OTA updates added. Resetting system.")
+        time.sleep(1)
+        reset()
+    else:
+        tprint("UCHK: No OTA updates.")
